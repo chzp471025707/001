@@ -21,7 +21,7 @@ print("Example training data label: ", mnist.train.labels[0])
 batch_size = 100
 # 从train的集合中选取batch_size个训练数据。
 xs, ys = mnist.train.next_batch(batch_size)
-#输出x为100个784像素
+#输入x为100个784像素
 print("X shape:", xs.shape)
 #输出y为100个10位的数组标签
 print("Y shape:", ys.shape)
