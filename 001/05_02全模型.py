@@ -75,6 +75,7 @@ def train(mnist):
     # 使用这一个函数来计算交叉损失。这个函数的第一个参数是神经网络不包括softmax的前向传播结果
     # 第二个是训练数据的正确答案。因为标准答案是一个长度为10的一维数组，而该函数需要提供的是
     # 一个正确答案的数字，所以需要使用tf.argmax(y_,1)函数来得到正确答案的编号
+    # 交叉熵公式解析：  https://blog.csdn.net/mao_xiao_feng/article/details/53382790
     cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=y, labels=tf.argmax(y_, 1))
     # 计算在当前batch中所有样例的交叉熵平均值。
     cross_entropy_mean = tf.reduce_mean(cross_entropy)
