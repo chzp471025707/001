@@ -25,6 +25,7 @@ def inference(input_tensor, avg_class, weights1, biases1, weights2, biases2):
     # 当没有提供滑动平均类时，直接使用参数当前的取值
     if avg_class == None:
         # 计算隐藏层的前向传播结果
+        #定义第一层隐藏层的计算结果
         layer1 = tf.nn.relu(tf.matmul(input_tensor, weights1) + biases1)
         # 计算输出层的前向传播结果。因为在计算损失时会一并计算softmax函数
         # 所以这里不需要加入激活函数。而且不加入softmax不影响预测结果。
@@ -48,13 +49,14 @@ def train(mnist):
     biases1 = tf.Variable(tf.constant(0.1, shape=[LAYER1_NODE]))
     # 生成输出层的参数。
     weights2 = tf.Variable(tf.truncated_normal([LAYER1_NODE, OUTPUT_NODE], stddev=0.1))
+    #biases2的权值为0.1，规模和输出节点一样
     biases2 = tf.Variable(tf.constant(0.1, shape=[OUTPUT_NODE]))
 
     # 计算在当前参数下神经网络前向传播的结果，这里给出的用于计算滑动平均的类为None,所以函数不会使用参数的滑动平均值
     y = inference(x, None, weights1, biases1, weights2, biases2)
 
     # 定义存储训练轮数的变量。这个变量不需要计算滑动平均值，所以这里指定这个变量为不可训练的变量（trainable=False）
-    # Tensorflow训练神经网络时，一般会将代表训轮数的变脸指定为不可训练的参数。
+    # Tensorflow训练神经网络时，一般会将代表训轮数的变量指定为不可训练的参数。
 
     # 将代表训练轮数的变量为不可变的参数
     global_step = tf.Variable(0, trainable=False)
@@ -105,16 +107,18 @@ def train(mnist):
     with tf.control_dependencies([train_step, variables_averages_op]):
         train_op = tf.no_op(name='train')
 
-    # 检测使用了滑动平静模型的神经网络前向传播是否正确。tf.argmax(average_y,1)
-    # 计算每一个样例的预测答案。其中average_y是一个batch_size*10的二维数组，每
-    # 一行表示案例向前传播的结果。tf.argmax的第二个参数为1，表示选取最大值的
+    # 检测使用了滑动平均模型的神经网络前向传播是否正确。tf.argmax(average_y,1)
+    # 计算每一个样例的预测答案。其中average_y是一个batch_size*10的二维数组，
+    # 每一行表示案例向前传播的结果。tf.argmax的第二个参数为1，表示选取最大值的
     # 操作只在第一个维度上进行（x轴上）,也就是说只在每一行选取最大值对应的下标
     # 于是得到的结果是一个长度为batch的一维数组，这个一维数组中的值就表示了每
     # 一个数字对应的样例识别的结果.tf.equal()判断每个Tensor的每一维度是否相同
     # 如果相等返回True，否则返回False.
+    # axis = 0 的时候返回每一列最大值的位置索引，=1表示返回每一行最大值的位置索引
     correct_prediction = tf.equal(tf.argmax(average_y, 1), tf.argmax(y_, 1))
-    # 这个运算首先将一个布尔型的值转换为实数型，然后计算平均值。这一个平均值
-    # 就代表模型在这一组数据上的正确率
+    # 这个运算首先将一个布尔型的值转换为实数型，然后计算平均值。
+    # 这一个平均值就代表模型在这一组数据上的正确率
+    #cast函数把第一个参数的值转换为第二个参数类型
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
     # 初始化回话并开始训练过程。
