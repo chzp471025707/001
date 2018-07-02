@@ -31,7 +31,7 @@ plt.show()
 def get_weight(shape, lambda1):
     # 生成一个变量
     #tf.random_normal()函数用于从服从指定正太分布的数值中取出指定个数的值
-    #var相代表权值，随机生成shape（输入与输出）个正态分布的数
+    #var表示权值，随机生成shape（输入与输出）个正态分布的数
     var = tf.Variable(tf.random_normal(shape), dtype=tf.float32)
 
     # tf.add_to_collection：把变量放入一个集合，把很多变量变成一个列表

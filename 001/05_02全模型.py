@@ -89,6 +89,7 @@ def train(mnist):
     loss = cross_entropy_mean + regularaztion
 
     # 设置指数衰减的学习率。
+    #举例（0.8，global_step，100，0.96，staircase=True）初始学习率0.8，迭代轮数，每训练100轮后乘以0.96
     learning_rate = tf.train.exponential_decay(
         LEARNING_RATE_BASE,  #基础的学习率，随着迭代的进行，更新变量时使用的学习率在这个基础上递减
         global_step,         #当前迭代的轮数
