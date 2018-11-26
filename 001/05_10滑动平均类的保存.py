@@ -42,5 +42,27 @@ with tf.Session() as sess:
     saver.restore(sess, "Saved_model/model2.ckpt")
     print(sess.run(v))
 '''
-0.0999999
+0.099999905
+'''
+
+# 《TensorFlow实战Google深度学习框架》05 minist数字识别问题
+# win10 Tensorflow1.0.1 python3.5.3
+# CUDA v8.0 cudnn-8.0-windows10-x64-v5.1
+# filename:ts05.11.py # variables_to_restore函数的使用样例
+
+# variables_to_restore函数的使用样例
+import tensorflow as tf
+v = tf.Variable(0, dtype=tf.float32, name="v")
+ema = tf.train.ExponentialMovingAverage(0.99)
+print(ema.variables_to_restore())
+'''
+#显示已经保存的变量的信息
+{'v/ExponentialMovingAverage': <tensorflow.python.ops.variables.Variable object at 0x000001F0CFB260F0>}
+'''
+saver = tf.train.Saver({"v/ExponentialMovingAverage": v})
+with tf.Session() as sess:
+    saver.restore(sess, "Saved_model/model2.ckpt")
+    print(sess.run(v))
+'''
+0.099999905
 '''
