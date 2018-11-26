@@ -34,6 +34,7 @@ with tf.Session() as sess:
     init_op = tf.global_variables_initializer()
     sess.run(init_op)
     STEPS = 5000
+    #i的取值从1到5000
     for i in range(STEPS):
         start = (i*batch_size) % dataset_size
         end = (i * batch_size) % 128 + batch_size

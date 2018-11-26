@@ -3,7 +3,7 @@ import tensorflow as tf
 from numpy.random import RandomState
 
 # 1. 定义神经网络的参数，输入和输出节点
-#训练数据batch的大小
+#训练数据batch的大小(一次训练模型，投入的样例数,本该一次性投入所有样例，为了防止内存泄漏设定batch)
 batch_size = 16
 #产生随机变量，2行3列，方差为1，种子为1
 w1= tf.Variable(tf.random_normal([2, 3], stddev=1, seed=1))
