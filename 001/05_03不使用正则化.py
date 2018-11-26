@@ -1,4 +1,4 @@
-# filename:ts05.03.py # TensorFlow训练神经网络--不使用正则化
+3# filename:ts05.03.py # TensorFlow训练神经网络--不使用正则化
 
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
