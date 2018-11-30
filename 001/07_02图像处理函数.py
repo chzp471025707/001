@@ -143,3 +143,4 @@ with tf.Session() as sess:
     plt.imshow(distorted_image.eval())
     plt.show()
 '''
+
